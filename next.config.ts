@@ -1,13 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'export',
+  basePath: '/admin-portal',
+  assetPrefix: '/admin-portal/',
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "carasti-staging.s3.ap-south-1.amazonaws.com",
-      },
-    ],
+    unoptimized: true,
   },
 };
 

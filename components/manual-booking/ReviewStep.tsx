@@ -148,12 +148,12 @@ export function ReviewStep() {
         </div>
 
         {/* Footer */}
-        <div className="bg-muted/30 px-8 py-5 flex justify-center">
+        {/* <div className="bg-muted/30 px-8 py-5 flex justify-center">
           <Button size="lg" className="gap-2">
             <CheckCircle2Icon className="size-4" />
             Confirm Booking
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

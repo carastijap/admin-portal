@@ -18,8 +18,8 @@ export default function LoginPage() {
           </p>
         </div>
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
+          onSubmit={(event) => {
+            event.preventDefault();
             router.push("/dashboard");
           }}
           className="space-y-4"

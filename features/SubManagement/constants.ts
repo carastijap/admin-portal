@@ -1,0 +1,58 @@
+import type { MetricCardData } from "@/types/metrics";
+
+export const SUB_MANAGEMENT_METRICS: MetricCardData[] = [
+  {
+    title: "Total Bookings",
+    value: "3,842",
+    change: "+8.2%",
+    trend: "up",
+    description: "Bookings trending up",
+    subtitle: "Compared to last month",
+    sparklineData: [{ v: 20 }, { v: 25 }, { v: 22 }, { v: 30 }, { v: 28 }, { v: 35 }],
+  },
+  {
+    title: "Pending Approvals",
+    value: "127",
+    change: "-12%",
+    trend: "down",
+    description: "Fewer pending items",
+    subtitle: "Approval rate improving",
+    sparklineData: [{ v: 35 }, { v: 30 }, { v: 32 }, { v: 25 }, { v: 22 }, { v: 20 }],
+  },
+  {
+    title: "Active Subscriptions",
+    value: "12,450",
+    change: "+5.4%",
+    trend: "up",
+    description: "Steady subscription growth",
+    subtitle: "Retention rate at 94%",
+    sparklineData: [{ v: 18 }, { v: 22 }, { v: 20 }, { v: 28 }, { v: 32 }, { v: 36 }],
+  },
+  {
+    title: "Revenue This Period",
+    value: "$48,290",
+    change: "+15.3%",
+    trend: "up",
+    description: "Strong revenue growth",
+    subtitle: "Exceeds quarterly target",
+    sparklineData: [{ v: 15 }, { v: 18 }, { v: 20 }, { v: 22 }, { v: 24 }, { v: 28 }],
+  },
+  {
+    title: "Cancellations",
+    value: "56",
+    change: "-8.5%",
+    trend: "down",
+    description: "Cancellations declining",
+    subtitle: "Customer satisfaction rising",
+    sparklineData: [{ v: 30 }, { v: 28 }, { v: 29 }, { v: 25 }, { v: 24 }, { v: 22 }],
+  },
+  {
+    title: "Avg. Booking Value",
+    value: "$125.80",
+    change: "+3.7%",
+    trend: "up",
+    description: "Higher booking values",
+    subtitle: "Premium plans gaining traction",
+    sparklineData: [{ v: 22 }, { v: 24 }, { v: 23 }, { v: 28 }, { v: 30 }, { v: 32 }],
+  },
+];

@@ -11,8 +11,6 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   ChevronDownIcon,
-  ClipboardListIcon,
-  PlusIcon,
 } from "lucide-react";
 import { cn } from "@/utils/client/cn";
 
@@ -71,7 +69,7 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        "flex h-screen flex-col border-r bg-sidebar text-sidebar-foreground transition-all duration-300",
+        "flex h-auto self-stretch flex-col border-r bg-sidebar text-sidebar-foreground transition-all duration-300",
         collapsed ? "w-[60px]" : "w-[420px]"
       )}
     >

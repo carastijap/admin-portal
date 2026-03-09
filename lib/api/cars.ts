@@ -1,5 +1,5 @@
 import { clientGet, clientPost, ClientFetchOptions } from "@/utils/client";
-import { endpoints } from "./endpoints";
+import { endpoints } from "@/lib/constants/endpoints";
 import { transformCarDetails } from "../transformers/transformCarDetails";
 
 export type CarDetailsResponse = Record<string, unknown>;

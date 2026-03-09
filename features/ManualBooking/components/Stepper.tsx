@@ -22,7 +22,6 @@ export function Stepper({ currentStep }: { currentStep: number }) {
         {steps.map((step, i) => {
           const isCompleted = step.number < currentStep;
           const isCurrent = step.number === currentStep;
-          const isUpcoming = step.number > currentStep;
 
           return (
             <li key={step.number} className="relative flex gap-4">

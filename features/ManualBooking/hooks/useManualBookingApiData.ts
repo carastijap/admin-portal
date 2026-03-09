@@ -67,14 +67,22 @@ async function fetchManualBookingData(): Promise<ManualBookingApiResponse> {
   };
 }
 
-export function useManualBookingApiData() {
+export function useManualBookingApiData(
+  initialApiData?: ManualBookingApiResponse | null
+) {
   const [apiData, setApiData] = React.useState<ManualBookingApiResponse | null>(
-    null
+    initialApiData ?? null
   );
   const [fieldEditability, setFieldEditability] =
-    React.useState<ManualBookingFieldEditability>(EMPTY_FIELD_EDITABILITY);
+    React.useState<ManualBookingFieldEditability>(
+      initialApiData
+        ? getManualBookingFieldEditability(initialApiData)
+        : EMPTY_FIELD_EDITABILITY
+    );
 
   React.useEffect(() => {
+    if (initialApiData) return;
+
     let isMounted = true;
 
     fetchManualBookingData().then((data) => {
@@ -86,7 +94,7 @@ export function useManualBookingApiData() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [initialApiData]);
 
   return {
     apiData,

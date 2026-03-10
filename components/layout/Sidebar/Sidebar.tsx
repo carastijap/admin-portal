@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { CountryLink } from "@/components/shared";
 import {
   LayoutDashboard,
   ListTodo,
@@ -12,6 +11,7 @@ import {
   PanelLeftOpen,
   ChevronDownIcon,
 } from "lucide-react";
+import { useCountryRouting } from "@/hooks";
 import { cn } from "@/utils/client/cn";
 
 interface NavChild {
@@ -39,7 +39,7 @@ const navItems: NavItem[] = [
 
 export function AppSidebar() {
   const [collapsed, setCollapsed] = useState(false);
-  const pathname = usePathname();
+  const { pathname, withCountryPrefix } = useCountryRouting();
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -55,12 +55,14 @@ export function AppSidebar() {
   useEffect(() => {
     navItems.forEach((item) => {
       if (
-        item.children?.some((child) => pathname.startsWith(child.href))
+        item.children?.some((child) =>
+          pathname.startsWith(withCountryPrefix(child.href))
+        )
       ) {
         setOpenMenus((prev) => ({ ...prev, [item.label]: true }));
       }
     });
-  }, [pathname]);
+  }, [pathname, withCountryPrefix]);
 
   const toggleMenu = (key: string) => {
     setOpenMenus((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -97,7 +99,7 @@ export function AppSidebar() {
 
           if (hasChildren) {
             const isAnyChildActive = item.children.some((child) =>
-              pathname.startsWith(child.href)
+              pathname.startsWith(withCountryPrefix(child.href))
             );
 
             return (
@@ -134,9 +136,10 @@ export function AppSidebar() {
                 {isOpen && !collapsed && (
                   <div className="ml-4 mt-1 space-y-1 border-l border-border pl-3">
                     {item.children.map((child) => {
-                      const isChildActive = pathname.startsWith(child.href);
+                      const childHref = withCountryPrefix(child.href);
+                      const isChildActive = pathname.startsWith(childHref);
                       return (
-                        <Link
+                        <CountryLink
                           key={child.href}
                           href={child.href}
                           className={cn(
@@ -148,7 +151,7 @@ export function AppSidebar() {
                         >
                           <child.icon className="h-4 w-4 shrink-0" />
                           <span>{child.label}</span>
-                        </Link>
+                        </CountryLink>
                       );
                     })}
                   </div>
@@ -157,10 +160,11 @@ export function AppSidebar() {
             );
           }
 
-          const isActive = pathname === item.href;
+          const itemHref = withCountryPrefix(item.href);
+          const isActive = pathname === itemHref;
 
           return (
-            <Link
+            <CountryLink
               key={item.href}
               href={item.href}
               className={cn(
@@ -171,7 +175,7 @@ export function AppSidebar() {
             >
               <item.icon className="h-5 w-5 shrink-0" />
               {!collapsed && <span>{item.label}</span>}
-            </Link>
+            </CountryLink>
           );
         })}
       </nav>

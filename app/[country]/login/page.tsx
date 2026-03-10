@@ -1,12 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { country } = useParams<{ country: string }>();
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -20,7 +21,7 @@ export default function LoginPage() {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            router.push("/dashboard");
+            router.push(`/${country}/dashboard`);
           }}
           className="space-y-4"
         >

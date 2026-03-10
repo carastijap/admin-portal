@@ -31,6 +31,7 @@ export function ManualBookingView() {
   const { data: apiData } = useQuery<ManualBookingApiResponse | null>({
     queryKey: queryKeys.manualBookingApiData,
     queryFn: getCarDetails,
+    staleTime: 1000 * 60 * 60, // 1 hr stale time
   });
 
   const hydratedApiData = apiData ?? null;

@@ -6,9 +6,15 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 export default async function ManualBookingPage() {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
+  await queryClient.fetchQuery({
     queryKey: queryKeys.manualBookingApiData,
-    queryFn: getManualBookingData,
+    queryFn: async () => {
+      const data = await getManualBookingData();
+      // if (!data) {
+      //   throw new Error("Failed to load manual booking data.");
+      // }
+      return data;
+    },
   });
 
   return (

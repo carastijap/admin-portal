@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { CountryLink } from "@/components/shared";
 import { DateFilter } from "@/features/SubManagement/components/DateFilter";
 
 export function SubManagementActionBar() {
@@ -12,7 +11,7 @@ export function SubManagementActionBar() {
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
           <Button asChild>
-            <Link href="/manual-booking">New Booking</Link>
+            <CountryLink href="/manual-booking">New Booking</CountryLink>
           </Button>
           <Button variant="outline">Upload committed Data</Button>
         </div>

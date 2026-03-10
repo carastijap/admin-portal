@@ -1,5 +1,7 @@
 import "server-only"
-import { cookies, headers } from "next/headers"
+import { getCookie } from "cookies-next/server"
+import { cookies as nextCookies, headers } from "next/headers"
+import { COUNTRY_COOKIE_NAME, DEFAULT_COUNTRY } from "@/lib/constants/countries"
 
 const DEFAULT_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
@@ -9,8 +11,6 @@ const DEFAULT_HEADERS = {
 } as const
 
 const DEFAULT_LOCALE = "en"
-const DEFAULT_COUNTRY = "AE"
-
 const COUNTRY_CODE_MAPPER: Record<string, string> = {
   AE: "1",
   SA: "966",
@@ -47,25 +47,29 @@ function buildApiUrl(endpoint: string, baseUrlOverride?: string) {
 }
 
 async function buildServerHeaders(options?: ServerFetchOptions) {
-  const [headerStore, cookieStore] = await Promise.all([headers(), cookies()])
-
   const withAppHeaders = options?.withAppHeaders ?? true
   const withAuth = options?.withAuth ?? true
   const localeCookieName = options?.localeCookieName ?? "NEXT_LOCALE"
-  const countryCookieName = options?.countryCookieName ?? "NEXT_COUNTRY"
+  const countryCookieName = options?.countryCookieName ?? COUNTRY_COOKIE_NAME
   const tokenCookieName = options?.tokenCookieName ?? "TOKEN"
+  const [headerStore, localeCookie, countryCookie, tokenCookie] = await Promise.all([
+    headers(),
+    getCookie(localeCookieName, { cookies: nextCookies }),
+    getCookie(countryCookieName, { cookies: nextCookies }),
+    getCookie(tokenCookieName, { cookies: nextCookies }),
+  ])
 
   const locale =
     headerStore.get("next-locale") ??
-    cookieStore.get(localeCookieName)?.value ??
+    localeCookie ??
     DEFAULT_LOCALE
 
   const country =
     headerStore.get("next-country") ??
-    cookieStore.get(countryCookieName)?.value ??
+    countryCookie ??
     DEFAULT_COUNTRY
 
-  const token = cookieStore.get(tokenCookieName)?.value
+  const token = tokenCookie
 
   const mergedHeaders = new Headers(withAppHeaders ? DEFAULT_HEADERS : undefined)
 

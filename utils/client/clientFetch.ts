@@ -1,4 +1,6 @@
 "use client"
+import { getCookie } from "cookies-next/client"
+import { COUNTRY_COOKIE_NAME, DEFAULT_COUNTRY } from "@/lib/constants/countries"
 
 const DEFAULT_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
@@ -8,8 +10,6 @@ const DEFAULT_HEADERS = {
 } as const
 
 const DEFAULT_LOCALE = "en"
-const DEFAULT_COUNTRY = "AE"
-
 const COUNTRY_CODE_MAPPER: Record<string, string> = {
   AE: "1",
   SA: "966",
@@ -30,22 +30,8 @@ export type ClientFetchOptions = Omit<RequestInit, "headers" | "body" | "method"
   countryCookieName?: string
 }
 
-function getCookieValue(cookieName: string): string | undefined {
-  if (typeof document === "undefined") return undefined
-
-  const cookies = document.cookie.split(";")
-  for (const item of cookies) {
-    const [rawKey, ...rest] = item.trim().split("=")
-    if (rawKey === cookieName) {
-      return decodeURIComponent(rest.join("="))
-    }
-  }
-
-  return undefined
-}
-
 function getLocaleFromClient(cookieName: string) {
-  const locale = getCookieValue(cookieName)
+  const locale = getCookie(cookieName)
   if (locale) return locale
 
   if (typeof navigator === "undefined" || !navigator.language) {
@@ -56,7 +42,7 @@ function getLocaleFromClient(cookieName: string) {
 }
 
 function getCountryCodeFromClient(cookieName: string) {
-  const country = (getCookieValue(cookieName) ?? DEFAULT_COUNTRY).toUpperCase()
+  const country = (getCookie(cookieName) ?? DEFAULT_COUNTRY).toUpperCase()
   return COUNTRY_CODE_MAPPER[country] ?? COUNTRY_CODE_MAPPER[DEFAULT_COUNTRY]
 }
 
@@ -84,7 +70,7 @@ function buildClientHeaders(options?: ClientFetchOptions) {
   const withAuth = options?.withAuth ?? true
   const tokenCookieName = options?.tokenCookieName ?? "TOKEN"
   const localeCookieName = options?.localeCookieName ?? "NEXT_LOCALE"
-  const countryCookieName = options?.countryCookieName ?? "NEXT_COUNTRY"
+  const countryCookieName = options?.countryCookieName ?? COUNTRY_COOKIE_NAME
 
   if (withAppHeaders) {
     Object.entries(DEFAULT_HEADERS).forEach(([key, value]) => {
@@ -98,7 +84,7 @@ function buildClientHeaders(options?: ClientFetchOptions) {
   }
 
   if (withAuth) {
-    const token = getCookieValue(tokenCookieName)
+    const token = getCookie(tokenCookieName)
     if (token) {
       mergedHeaders.set("Authorization", `Bearer ${token}`)
     }

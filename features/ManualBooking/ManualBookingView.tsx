@@ -50,14 +50,22 @@ export function ManualBookingView() {
   };
 
   return (
-    <HookFormProvider<ManualBookingFormValues>
-      defaultValues={getManualBookingInitialValues()}
-      onSubmit={handleSubmit}
-    >
-      <ManualBookingFormHydrator apiData={hydratedApiData} />
-      <MultiStepFormProvider totalSteps={TOTAL_STEPS}>
-        <ManualBookingContent fieldEditability={fieldEditability} />
-      </MultiStepFormProvider>
-    </HookFormProvider>
+    <>
+      <div className="mb-6 px-10">
+        <h1 className="text-2xl font-semibold tracking-tight">Manual Booking</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Create and submit a manual booking request by completing the required steps.
+        </p>
+      </div>
+      <HookFormProvider<ManualBookingFormValues>
+        defaultValues={getManualBookingInitialValues()}
+        onSubmit={handleSubmit}
+      >
+        <ManualBookingFormHydrator apiData={hydratedApiData} />
+        <MultiStepFormProvider totalSteps={TOTAL_STEPS}>
+          <ManualBookingContent fieldEditability={fieldEditability} />
+        </MultiStepFormProvider>
+      </HookFormProvider>
+    </>
   );
 }

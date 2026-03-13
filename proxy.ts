@@ -11,6 +11,12 @@ function buildCountryRedirectPath(pathname: string, country: string) {
 
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+  
+  // Allow SSO consume path to pass through without interception
+  if (pathname.startsWith("/sso/consume")) {
+    return NextResponse.next();
+  }
+  
   const segments = pathname.split("/").filter(Boolean);
   const routeCountry = normalizeSupportedCountry(segments[0]);
 
